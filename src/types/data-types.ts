@@ -4,6 +4,9 @@ export interface Product {
   id: number
   brand: string
   price: number
+  stock: number
+  color: string
+  size: string[]
   name: { dk: string; en: string }
   images: string[]
   categories: string[]
@@ -13,11 +16,11 @@ export interface Promotion {
   position: number
   type: string
   image: {
-    imageUrl: string
-    alt: string
-    aspectRatio: string
-    maxWidth: string
-    focalPoint: { x: number; y: number }
+    imageUrl?: string
+    alt?: string
+    aspectRatio?: string
+    maxWidth?: string
+    focalPoint?: { x: number; y: number }
   }
 }
 

@@ -1,3 +1,14 @@
+<template>
+  <section class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-7 auto-rows-fr">
+    <template v-for="(item, i) in mergedItems" :key="i">
+      <div :class="[item.__isPromo ? promoGridClass(item.type) : 'col-span-1 row-span-1']">
+        <PromoSpot v-if="item.__isPromo" :data="item" />
+        <ProductCard v-else-if="'images' in item" :data="item" />
+      </div>
+    </template>
+  </section>
+</template>
+
 <script lang="ts" setup>
 import mockData from '@/data/mockData.json'
 import ProductCard from '@/components/ProductCard.vue'
@@ -19,16 +30,18 @@ const mergedItems = computed<MergedItem[]>(() => {
   return items
 })
 
-console.log('MERGED ITEMS:', mergedItems.value)
+// Helper for grid classes
+function promoGridClass(type?: string) {
+  switch (type) {
+    case '2x2':
+      return 'col-span-2 row-span-2'
+    case '1x2':
+      return 'col-span-1 row-span-2'
+    case '2x1':
+      return 'col-span-2 row-span-1'
+    case '1x1':
+    default:
+      return 'col-span-1 row-span-1'
+  }
+}
 </script>
-
-<template>
-  <section
-    class="min-h-screen w-full max-w-[1600px] mx-auto grid sm:grid-cols-3 xl:grid-cols-6 gap-4 p-4"
-  >
-    <template v-for="(item, i) in mergedItems" :key="i">
-      <PromoSpot v-if="item.__isPromo" :data="item" />
-      <ProductCard v-else-if="'images' in item" :data="item" />
-    </template>
-  </section>
-</template>
