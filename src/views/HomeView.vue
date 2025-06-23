@@ -1,5 +1,5 @@
 <template>
-  <section class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-7 auto-rows-fr">
+  <section class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-7">
     <template v-for="(item, i) in mergedItems" :key="i">
       <div :class="[item.__isPromo ? promoGridClass(item.type) : 'col-span-1 row-span-1']">
         <PromoSpot v-if="item.__isPromo" :data="item" />

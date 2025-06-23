@@ -19,7 +19,7 @@ defineProps<{ data: Product }>()
         <h2 class="text-lg font-semibold text-gray-900 truncate">
           {{ data.name.dk || data.name.en || 'Produktnavn mangler' }}
         </h2>
-        <div class="text-primary-600 text-xl font-bold">{{ data.price }} kr</div>
+        <div class="text-blue-600 text-xl font-bold">{{ data.price }} kr</div>
         <div class="flex flex-wrap gap-1 items-center text-sm text-gray-700">
           <span class="font-medium">Størrelser:</span>
           <span v-if="data.size && data.size.length">
@@ -37,7 +37,7 @@ defineProps<{ data: Product }>()
           På lager: <span class="font-medium">{{ data.stock }}</span>
         </div>
         <button
-          class="mt-3 w-full py-2 px-4 bg-blue-600 text-gray-900 rounded-lg font-semibold hover:bg-blue-700 transition"
+          class="mt-3 w-full py-2 px-4 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition"
           type="button"
         >
           Læg i kurv
