@@ -17,7 +17,6 @@ import type { Product, Promotion, MergedItem } from '@/types/data-types'
 import { ref, computed } from 'vue'
 
 const products = ref<Product[]>(mockData.products)
-console.log('PRODUCTS:', products.value)
 const promotions = ref<Promotion[]>(mockData.promotionalSpots)
 
 // Merge products and promo spots based on position
