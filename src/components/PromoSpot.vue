@@ -4,7 +4,7 @@ defineProps<{ data: Promotion; type?: string }>()
 </script>
 
 <template>
-  <div class="w-full h-full flex items-center justify-center">
+  <div class="w-full h-full">
     <img
       v-if="data.image?.imageUrl"
       :src="data.image.imageUrl"
