@@ -52,10 +52,11 @@ const selectedMainCategory = computed(() => {
 })
 
 const showSidebar = computed(() => route.name === 'home')
+const isProductDetail = computed(() => route.name === 'product-detail')
 </script>
 
 <template>
-  <MainMenu :categories="mainCategories" :selected="selectedMainCategory" />
+  <MainMenu v-if="!isProductDetail" :categories="mainCategories" :selected="selectedMainCategory" />
   <div class="flex w-full min-h-screen">
     <!-- Mobile sidebar toggle button -->
     <button
