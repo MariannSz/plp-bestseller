@@ -16,6 +16,7 @@ function openDetail(id: number | string) {
     >
       <div class="bg-neutral-100 flex items-center justify-center">
         <img
+          v-if="data.images && data.images.length"
           :src="data.images[0]"
           :alt="data.name.dk || data.name.en || 'missing product name'"
           class="object-contain max-h-80 w-auto"
