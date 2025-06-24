@@ -7,11 +7,12 @@ import { computed } from 'vue'
 
 const props = defineProps<{ categoryId: string }>()
 
-const products = computed<Product[]>(() =>
-  mockData.products.filter(
+const products = computed<Product[]>(() => {
+  if (props.categoryId === 'all') return mockData.products
+  return mockData.products.filter(
     (p: any) => Array.isArray(p.categories) && p.categories.includes(props.categoryId),
-  ),
-)
+  )
+})
 
 const promotions = computed<Promotion[]>(() => mockData.promotionalSpots)
 

@@ -6,7 +6,14 @@ import MainMenu from '@/components/MainMenu.vue'
 import SidebarMenu from '@/components/SidebarMenu.vue'
 
 const rootCategory = computed(() => mockData.categories)
-const mainCategories = computed(() => rootCategory.value.categories)
+/* const mainCategories = computed(() => rootCategory.value.categories) */
+const allProductsCategory = {
+  id: 'all',
+  name: { dk: 'Alle produkter', en: 'All Products' },
+  level: 0,
+}
+
+const mainCategories = computed(() => [allProductsCategory, ...rootCategory.value.categories])
 const route = useRoute()
 
 function findCategoryById(category, id) {
@@ -33,14 +40,17 @@ function findLevel1Ancestor(category, id) {
 }
 
 const currentCategory = computed(() => {
-  const id = route.params.categoryId || 'adults'
+  const id = route.params.categoryId || 'all'
+  if (id === 'all') return allProductsCategory
   return findCategoryById(rootCategory.value, id)
 })
 
 const selectedMainCategory = computed(() => {
-  const id = route.params.categoryId || 'adults'
+  const id = route.params.categoryId || 'all'
+  if (id === 'all') return allProductsCategory
   return findLevel1Ancestor(rootCategory.value, id)
 })
+
 const showSidebar = computed(() => route.name === 'home')
 </script>
 
