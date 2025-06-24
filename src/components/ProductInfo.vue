@@ -5,6 +5,9 @@ defineProps<{ product: Product }>()
 
 <template>
   <div>
+    <div class="text-xs text-gray-500 font-semibold uppercase tracking-wide mb-1">
+      {{ product.brand }}
+    </div>
     <h2 class="text-lg font-semibold text-gray-900 truncate">
       {{ product.name.dk || product.name.en || 'Produktnavn mangler' }}
     </h2>

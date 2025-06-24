@@ -78,9 +78,6 @@ function removeImage(idx: number) {
       </div>
       <!-- Details-->
       <div class="w-full flex flex-col gap-4">
-        <div class="text-sm text-gray-500 font-semibold uppercase tracking-wide">
-          {{ product.brand }}
-        </div>
         <ProductInfo :product="product" />
         <!-- Variants -->
         <div v-if="product.variant && product.variant.length">
