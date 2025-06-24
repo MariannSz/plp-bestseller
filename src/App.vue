@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { ref, computed } from 'vue'
 import { useRoute } from 'vue-router'
 import mockData from '@/data/mockData.json'
 import MainMenu from '@/components/MainMenu.vue'
 import SidebarMenu from '@/components/SidebarMenu.vue'
 
+const sidebarOpen = ref(false)
 const rootCategory = computed(() => mockData.categories)
-/* const mainCategories = computed(() => rootCategory.value.categories) */
 const allProductsCategory = {
   id: 'all',
   name: { dk: 'Alle produkter', en: 'All Products' },
@@ -57,9 +57,47 @@ const showSidebar = computed(() => route.name === 'home')
 <template>
   <MainMenu :categories="mainCategories" :selected="selectedMainCategory" />
   <div class="flex w-full min-h-screen">
-    <SidebarMenu v-if="showSidebar" :category="rootCategory" :selected="currentCategory" />
+    <!-- Mobile sidebar toggle button -->
+    <button
+      class="md:hidden fixed top-4 left-4 z-30 bg-blue-600 text-white px-4 py-2 rounded shadow"
+      @click="sidebarOpen = true"
+      v-if="showSidebar"
+    >
+      Kategorier
+    </button>
+    <!-- Sidebar: hidden on mobile, visible on md+ -->
+    <SidebarMenu
+      v-if="showSidebar"
+      :category="rootCategory"
+      :selected="currentCategory"
+      class="hidden md:block"
+    />
+    <!-- Mobile Sidebar Drawer -->
+    <transition name="fade">
+      <div
+        v-if="sidebarOpen"
+        class="fixed inset-0 z-40 bg-black bg-opacity-40 flex"
+        @click.self="sidebarOpen = false"
+      >
+        <aside class="w-64 max-w-full bg-white h-full shadow-lg p-4 overflow-y-auto">
+          <button class="mb-4 text-blue-600 font-bold" @click="sidebarOpen = false">Luk</button>
+          <SidebarMenu :category="rootCategory" :selected="currentCategory" />
+        </aside>
+      </div>
+    </transition>
     <main :class="[showSidebar ? 'flex-1' : 'w-full', 'bg-gray-50 p-4']">
       <RouterView />
     </main>
   </div>
 </template>
+
+<style scoped>
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.2s;
+}
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+</style>
