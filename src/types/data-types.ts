@@ -1,5 +1,3 @@
-// src/types/data-types.ts
-
 export interface Product {
   id: number
   brand: string
