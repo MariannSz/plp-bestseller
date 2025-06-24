@@ -3,17 +3,16 @@ import { ref, computed } from 'vue'
 import { Product } from '@/types/data-types'
 import { useRouter } from 'vue-router'
 import ProductInfo from './ProductInfo.vue'
+import ImageFallback from './ImageFallback.vue'
 
 const props = defineProps<{ data: Product }>()
+const { data } = props
 const router = useRouter()
 
-const fallbackImg = '/fallback-product.png' // Place this image in your public/ folder
 const errorImg = ref(false)
 
 const imgSrc = computed(() =>
-  !errorImg.value && props.data.images && props.data.images.length
-    ? props.data.images[0]
-    : fallbackImg,
+  !errorImg.value && data.images && data.images.length ? data.images[0] : '',
 )
 
 function onImgError() {
@@ -31,17 +30,14 @@ function openDetail(id: number | string) {
       class="w-full h-full flex flex-col rounded-2xl bg-white shadow-md overflow-hidden border border-neutral-200 transition hover:shadow-lg"
     >
       <div class="bg-neutral-100 flex items-center justify-center min-h-40 h-80">
-        <template v-if="props.data.images && props.data.images.length && !errorImg">
-          <img
-            :src="props.data.images[0]"
-            :alt="data.name.dk || data.name.en || 'missing product name'"
-            class="object-contain max-h-80 w-auto"
-            @error="onImgError"
-          />
-        </template>
-        <template v-else>
-          <div class="text-gray-400 text-center py-8 w-full">no image available</div>
-        </template>
+        <img
+          v-if="imgSrc !== ''"
+          :src="imgSrc"
+          :alt="data.name.dk || data.name.en || 'missing product name'"
+          class="object-contain max-h-80 w-auto"
+          @error="onImgError"
+        />
+        <ImageFallback v-if="errorImg" />
       </div>
       <div class="flex flex-col gap-2 p-4 flex-1">
         <ProductInfo :product="data" />

@@ -3,6 +3,7 @@ import { computed, ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import mockData from '@/data/mockData.json'
 import ProductInfo from '@/components/ProductInfo.vue'
+import ImageFallback from '@/components/ImageFallback.vue'
 
 const props = defineProps<{ productId: string }>()
 const router = useRouter()
@@ -77,7 +78,7 @@ function removeImage(idx: number) {
           </div>
         </template>
         <template v-else>
-          <div class="text-gray-400 text-center py-8 w-full">no image available</div>
+          <ImageFallback />
         </template>
       </div>
       <!-- Details-->
