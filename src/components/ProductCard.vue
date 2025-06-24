@@ -1,9 +1,24 @@
 <script lang="ts" setup>
+import { ref, computed } from 'vue'
 import { Product } from '@/types/data-types'
 import { useRouter } from 'vue-router'
 import ProductInfo from './ProductInfo.vue'
-defineProps<{ data: Product }>()
+import ImageFallback from './ImageFallback.vue'
+
+const props = defineProps<{ data: Product }>()
+const { data } = props
 const router = useRouter()
+
+const errorImg = ref(false)
+
+const imgSrc = computed(() =>
+  !errorImg.value && data.images && data.images.length ? data.images[0] : '',
+)
+
+function onImgError() {
+  errorImg.value = true
+}
+
 function openDetail(id: number | string) {
   router.push({ name: 'product-detail', params: { productId: id } })
 }
@@ -14,13 +29,15 @@ function openDetail(id: number | string) {
     <div
       class="w-full h-full flex flex-col rounded-2xl bg-white shadow-md overflow-hidden border border-neutral-200 transition hover:shadow-lg"
     >
-      <div class="bg-neutral-100 flex items-center justify-center">
+      <div class="bg-neutral-100 flex items-center justify-center min-h-40 h-80">
         <img
-          v-if="data.images && data.images.length"
-          :src="data.images[0]"
+          v-if="imgSrc !== ''"
+          :src="imgSrc"
           :alt="data.name.dk || data.name.en || 'missing product name'"
           class="object-contain max-h-80 w-auto"
+          @error="onImgError"
         />
+        <ImageFallback v-if="errorImg" />
       </div>
       <div class="flex flex-col gap-2 p-4 flex-1">
         <ProductInfo :product="data" />
