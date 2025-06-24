@@ -17,12 +17,16 @@ const products = computed<Product[]>(() => {
 const promotions = computed<Promotion[]>(() => mockData.promotionalSpots)
 
 const mergedItems = computed<MergedItem[]>(() => {
-  const items = [...products.value]
-  promotions.value.forEach((promo) => {
-    const clone = { ...promo, __isPromo: true }
-    items.splice(promo.position, 0, clone)
-  })
-  return items
+  // Only include promotions if "all" is selected
+  if (props.categoryId === 'all') {
+    const items = [...products.value]
+    promotions.value.forEach((promo) => {
+      const clone = { ...promo, __isPromo: true }
+      items.splice(promo.position, 0, clone)
+    })
+    return items
+  }
+  return products.value
 })
 
 function promoGridClass(type?: string) {
