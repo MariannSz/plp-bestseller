@@ -57,24 +57,28 @@ function removeImage(idx: number) {
     <div class="md:grid md:grid-cols-2 gap-8 flex flex-col">
       <!-- Images -->
       <div class="w-full max-w-md mx-auto">
-        <img
-          v-if="validImages.length"
-          :src="validImages[selectedImageIdx] || validImages[0]"
-          :alt="product.name.dk || product.name.en"
-          class="w-full max-h-96 object-contain rounded"
-        />
-        <div class="flex flex-wrap gap-2 mt-2 justify-center">
+        <template v-if="validImages.length">
           <img
-            v-for="(img, idx) in validImages"
-            :key="img"
-            :src="img"
+            :src="validImages[selectedImageIdx] || validImages[0]"
             :alt="product.name.dk || product.name.en"
-            class="w-16 h-16 object-cover rounded border cursor-pointer"
-            :class="{ 'ring-2 ring-blue-500': selectedImageIdx === idx }"
-            @click="selectedImageIdx = idx"
-            @error="removeImage(idx)"
+            class="w-full max-h-96 object-contain rounded"
           />
-        </div>
+          <div class="flex flex-wrap gap-2 mt-2 justify-center">
+            <img
+              v-for="(img, idx) in validImages"
+              :key="img"
+              :src="img"
+              :alt="product.name.dk || product.name.en"
+              class="w-16 h-16 object-cover rounded border cursor-pointer"
+              :class="{ 'ring-2 ring-blue-500': selectedImageIdx === idx }"
+              @click="selectedImageIdx = idx"
+              @error="removeImage(idx)"
+            />
+          </div>
+        </template>
+        <template v-else>
+          <div class="text-gray-400 text-center py-8 w-full">no image available</div>
+        </template>
       </div>
       <!-- Details-->
       <div class="w-full flex flex-col gap-4">
